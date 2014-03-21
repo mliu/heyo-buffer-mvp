@@ -1,0 +1,30 @@
+%p
+  ="Welcome, " + current_user.name + "!"
+  =link_to "Sign Out", signout_path, id: "sign_out"
+  =link_to "Scheduled posts", posts_path
+-if flash.any?
+  -flash.each do |name, msg|
+    =msg
+%h2
+  Schedule your posts
+=form_for @post do |f|
+  %div{style: "width: 500px;"}
+    =f.label :content
+    =f.text_field :content, class: "form-control"
+
+    =f.label :buffer_time
+    #datetimepicker.input-group
+      %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text"}
+      %span.input-group-addon
+        %i{"data-time-icon" => "fa fa-clock-o", "data-date-icon" => "fa fa-calendar"}
+    %br
+    =f.submit
+
+:javascript
+  $(function() {
+    $('#datetimepicker').datetimepicker({
+      language: 'en',
+      pick12HourFormat: true,
+      startDate: new Date(#{@startDate.year}, #{@startDate.month - 1}, #{@startDate.day})
+    });
+  });

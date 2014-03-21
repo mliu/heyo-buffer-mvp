@@ -1,4 +1,14 @@
 Bufferheyo::Application.routes.draw do
+  root to: "sessions#index"
+
+  match 'profile', to: 'posts#new', as: 'profile', via: [:get, :post]
+  # get 'profile', to: 'posts#new'
+  match "auth/:provider/callback", to: "sessions#create", via: [:get, :post]
+  match "auth/failure", to: redirect('/'), via: [:get, :post]
+  match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
+  resources :posts do
+    resources :jobs
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -6,8 +6,18 @@ gem 'rails', '4.0.0'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 
+gem 'haml'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
+
+gem 'bootstrap-sass', '~> 3.1.1'
+
+gem 'bootstrap-datetimepicker-rails', :git => "https://github.com/mliu95/bootstrap-datetimepicker-rails.git"
+
+gem 'font-awesome-sass'
+
+gem 'rufus-scheduler'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -20,6 +30,11 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+gem 'omniauth'
+gem 'omniauth-facebook', '1.4.0'
+
+gem 'koala', '~> 1.8.0rc1'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
