@@ -9,6 +9,10 @@ class SessionsController < ApplicationController
 
   def create
     user = User.from_omniauth(env["omniauth.auth"])
+    if !user.selected_a_time_zone
+      user.update_attribute(:time_zone, cookies["jstz_time_zone"])
+      user.update_attribute(:selected_a_time_zone, true)
+    end
     puts(env["omniauth.auth"])
     session[:user_id] = user.id
     flash[:success] = "You have logged in!"
