@@ -20,6 +20,11 @@ class User < ActiveRecord::Base
     return newUser
   end
 
+  # def self.deauth(auth)
+  #   user = where(:uid, Koala::Facebook::OAuth.new("213640202163880", "07a19ab760466d7eb0eebd3950bcb39f").parse_signed_request(auth))
+    
+  # end
+
   def refresh_facebook_token
     if facebook_token_expired?
       # Get the new token

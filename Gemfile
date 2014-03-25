@@ -19,6 +19,8 @@ gem 'font-awesome-sass'
 
 gem 'rufus-scheduler'
 
+gem "paperclip", "~> 4.1"
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 

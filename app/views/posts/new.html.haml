@@ -1,12 +1,16 @@
 ="OAuth expiration: " + current_user.oauth_expires_at.to_s
 %br
-="Current Time: " + Time.zone.now.to_s
+="Current Time: " + Time.zone.now.utc_offset.to_s
+%br
 %h2
   Schedule your posts
 =form_for @post do |f|
   %div{style: "width: 500px;"}
     =f.label :content
     =f.text_field :content, class: "form-control"
+
+    =f.label :photo
+    =f.file_field :photo
 
     =f.label :buffer_time
     #datetimepicker.input-group

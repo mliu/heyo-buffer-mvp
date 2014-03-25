@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     Time.zone = current_user.time_zone
     if @post.save
       @post.update_attribute(:user_id, current_user.id)
-      @post.update_attribute(:parse_time, DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S %p"))
+      @post.update_attribute(:parse_time, DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S %p").change(offset: Time.now.strftime("%z")))
       logger.debug "Saved post with id #{@post.id}"
       logger.debug "#{@post.parse_time}"
       job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
@@ -72,6 +72,6 @@ class PostsController < ApplicationController
 
   private
     def post_params
-      params.require(:post).permit(:content, :buffer_time)
+      params.require(:post).permit(:content, :buffer_time, :photo)
     end
 end

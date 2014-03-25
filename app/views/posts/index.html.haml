@@ -1,5 +1,23 @@
 %h2
   Your queued posts
+-if @posts_past.any?
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title
+        Past
+    %ul.list-group
+      -@posts_past.each do |post|
+        %li.list-group-item
+          =post.content
+          / ="Time: " + post.buffer_time
+          =post.parse_time
+          =@startDate
+          -if post.parse_time < @startDate
+            %span.edit_link
+              Posted
+          -else
+            %span.edit_link
+              =link_to "Edit", edit_post_path(post)
 -if @posts_today.any?
   .panel.panel-default
     .panel-heading
@@ -9,7 +27,9 @@
       -@posts_today.each do |post|
         %li.list-group-item
           =post.content
-          ="Time: " + post.buffer_time
+          / ="Time: " + post.buffer_time
+          =post.parse_time
+          =@startDate
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
