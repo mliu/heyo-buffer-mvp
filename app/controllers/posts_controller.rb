@@ -3,17 +3,18 @@ class PostsController < ApplicationController
     @post = Post.new
     @startDate = Time.current
     Time.zone = current_user.time_zone
-    @graph = Koala::Facebook::API.new(current_user.oauth_token)
   end
 
   def create
     @post = Post.new(post_params)
-    @graph = Koala::Facebook::API.new(current_user.oauth_token)
+    @user = current_user
     Time.zone = current_user.time_zone
     if @post.save
+      @post.update_attribute(:user_id, current_user.id)
       logger.debug "Saved post with id #{@post.id}"
       logger.debug"#{DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S    %p").strftime("%Y-%m-%d %H:%M:%S ") + (Time.zone.now.time_zone.utc_offset.to_s)}"
       job = Rufus::Scheduler.singleton.schedule_at DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S    %p").strftime("%Y-%m-%d %H:%M:%S ") + (Time.zone.now.time_zone.utc_offset.to_s) do
+        @graph = Koala::Facebook::API.new(@user.oauth_token)
         @graph.put_connections("me", "feed", message: @post.content)
         logger.debug("Posted #{@post.content} at #{@post.buffer_time}")
       end

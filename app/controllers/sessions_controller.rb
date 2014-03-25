@@ -9,11 +9,14 @@ class SessionsController < ApplicationController
 
   def create
     user = User.from_omniauth(env["omniauth.auth"])
-    if !user.selected_a_time_zone
+    if !user.read_attribute(:selected_a_time_zone)
       user.update_attribute(:time_zone, cookies["jstz_time_zone"])
       user.update_attribute(:selected_a_time_zone, true)
     end
-    puts(env["omniauth.auth"])
+    Rufus::Scheduler.singleton.every '1d' do
+      user.refresh_facebook_token
+    end
+    logger.debug env["omniauth.auth"]
     session[:user_id] = user.id
     flash[:success] = "You have logged in!"
     redirect_to profile_path

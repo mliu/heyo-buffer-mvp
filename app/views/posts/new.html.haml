@@ -5,9 +5,9 @@
 -if flash.any?
   -flash.each do |name, msg|
     =msg
-=current_user.time_zone
+=current_user.oauth_expires_at
 %br
-=Time.zone
+=Time.zone.now
 %h2
   Schedule your posts
 =form_for @post do |f|

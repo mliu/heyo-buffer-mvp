@@ -1,0 +1,9 @@
+=current_user.name
+=link_to "Profile", profile_path
+%h2
+  Your queued posts
+-@posts.each do |post|
+  =post.content
+  %br
+  ="Time: " + post.buffer_time
+  %br
