@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140321165855) do
+ActiveRecord::Schema.define(version: 20140325144835) do
 
   create_table "posts", force: true do |t|
     t.datetime "created_at"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140321165855) do
     t.string   "buffer_time"
     t.string   "job_id"
     t.string   "user_id"
+    t.datetime "parse_time"
   end
 
   create_table "users", force: true do |t|

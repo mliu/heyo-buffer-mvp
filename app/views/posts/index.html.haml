@@ -1,9 +1,50 @@
-=current_user.name
-=link_to "Profile", profile_path
 %h2
   Your queued posts
--@posts.each do |post|
-  =post.content
-  %br
-  ="Time: " + post.buffer_time
-  %br
+-if @posts_today.any?
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title
+        Today
+    %ul.list-group
+      -@posts_today.each do |post|
+        %li.list-group-item
+          =post.content
+          ="Time: " + post.buffer_time
+          -if post.parse_time < @startDate
+            %span.edit_link
+              Posted
+          -else
+            %span.edit_link
+              =link_to "Edit", edit_post_path(post)
+-if @posts_tomorrow.any?
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title
+        Tomorrow
+    %ul.list-group
+      -@posts_tomorrow.each do |post|
+        %li.list-group-item
+          =post.content
+          ="Time: " + post.buffer_time
+          -if post.parse_time < @startDate
+            %span.edit_link
+              Posted
+          -else
+            %span.edit_link
+              =link_to "Edit", edit_post_path(post)
+-if @posts_future.any?
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title
+        Future
+    %ul.list-group
+      -@posts_future.each do |post|
+        %li.list-group-item
+          =post.content
+          ="Time: " + post.buffer_time
+          -if post.parse_time < @startDate
+            %span.edit_link
+              Posted
+          -else
+            %span.edit_link
+              =link_to "Edit", edit_post_path(post)

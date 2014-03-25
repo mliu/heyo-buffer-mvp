@@ -1,16 +1,11 @@
-="OAuth expiration: " + current_user.oauth_expires_at.to_s
-%br
-="Current Time: " + Time.zone.now.to_s
-%h2
-  Schedule your posts
 =form_for @post do |f|
   %div{style: "width: 500px;"}
     =f.label :content
-    =f.text_field :content, class: "form-control"
+    =f.text_field :content, class: "form-control", value: @post.content
 
     =f.label :buffer_time
     #datetimepicker.input-group
-      %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text"}
+      %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text", value: @post.buffer_time}
       %span.input-group-addon
         %i{"data-time-icon" => "fa fa-clock-o", "data-date-icon" => "fa fa-calendar"}
     %br
