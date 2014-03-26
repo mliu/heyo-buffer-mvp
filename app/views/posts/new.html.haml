@@ -2,6 +2,8 @@
 %br
 ="Current Time: " + Time.zone.now.utc_offset.to_s
 %br
+-@page_names.each do |p|
+  =p
 %h2
   Schedule your posts
 =form_for @post do |f|

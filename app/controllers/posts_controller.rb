@@ -3,6 +3,11 @@ class PostsController < ApplicationController
     @post = Post.new
     Time.zone = current_user.time_zone
     @startDate = Time.current
+    @graph = Koala::Facebook::API.new(@current_user.oauth_token)
+    @page_names = []
+    @pages = @graph.get_connections('me', 'accounts').each do |p|
+      @page_names.push(p['name'])
+    end
   end
 
   def create

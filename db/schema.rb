@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326144122) do
+ActiveRecord::Schema.define(version: 20140326171942) do
 
   create_table "posts", force: true do |t|
     t.datetime "created_at"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20140326144122) do
     t.datetime "updated_at"
     t.boolean  "selected_a_time_zone", default: false
     t.string   "time_zone"
+    t.string   "page_token"
   end
 
 end
