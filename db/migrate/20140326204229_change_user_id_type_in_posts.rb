@@ -1,5 +1,6 @@
 class ChangeUserIdTypeInPosts < ActiveRecord::Migration
   def change
-    change_column :posts, :user_id, :integer
+    remove_column :posts, :user_id
+    add_column :posts, :user_id, :integer
   end
 end
