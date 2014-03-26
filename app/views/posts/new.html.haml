@@ -4,7 +4,7 @@
 %br
 %h2
   Schedule your posts
-=form_for @post, remote: true do |f|
+=form_for @post do |f|
   %div{style: "width: 500px;"}
     =f.label :content
     =f.text_field :content, class: "form-control"
@@ -32,16 +32,3 @@
     });
   });
 
-/ Ajax form
-/ $('form').submit(function(){
-/   var valuesToSubmit = $(this).serialize();
-/   $.ajax({
-/     url: $(this).attr('action'),
-/     data: valuesToSubmit,
-/     dataType: "JSON",
-/     type: "POST"
-/   }).success(function(json){
-/     alert(json);
-/   });
-/   return false;
-/ });

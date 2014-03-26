@@ -39,8 +39,10 @@ class PostsController < ApplicationController
     @user = current_user
     Time.zone = current_user.time_zone
     if Rufus::Scheduler.singleton.job(@post.read_attribute(:job_id)).nil?
+      logger.debug "Nil Job"
       flash[:error] = "This post can no longer be edited!"
       redirect_to posts_path
+      return
     end
     if @post.update(post_params)
       @post.update_attribute(:parse_time, DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S %p"))
