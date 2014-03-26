@@ -4,13 +4,16 @@
 %br
 %h2
   Schedule your posts
-=form_for @post do |f|
+=form_for @post, remote: true do |f|
   %div{style: "width: 500px;"}
     =f.label :content
     =f.text_field :content, class: "form-control"
 
     =f.label :photo
     =f.file_field :photo
+    / Ajax preview
+    / #image_view
+    /   =image_tag @post.photo.url
 
     =f.label :buffer_time
     #datetimepicker.input-group
@@ -28,3 +31,17 @@
       startDate: new Date(#{@startDate.year}, #{@startDate.month - 1}, #{@startDate.day})
     });
   });
+
+/ Ajax form
+/ $('form').submit(function(){
+/   var valuesToSubmit = $(this).serialize();
+/   $.ajax({
+/     url: $(this).attr('action'),
+/     data: valuesToSubmit,
+/     dataType: "JSON",
+/     type: "POST"
+/   }).success(function(json){
+/     alert(json);
+/   });
+/   return false;
+/ });
