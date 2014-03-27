@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
       user.save!
     end
 
-    new_access_info = facebook_oauth.exchange_access_token_info newUser.oauth_token
+    new_access_info = newUser.facebook_oauth.exchange_access_token_info newUser.oauth_token
     logger.debug "New access info: #{new_access_info}"
     new_access_token = new_access_info["access_token"]
     new_access_expires_at = DateTime.now + new_access_info["expires"].to_i.seconds
