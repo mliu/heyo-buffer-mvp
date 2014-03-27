@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
       # Get the new token
       logger.debug "Exchanging token"
       new_short_token = facebook_oauth.exchange_access_token_info(self.oauth_token)
-      logger.debug "Refreshed token info: #{new_token}"
+      logger.debug "Refreshed token info: #{new_short_token}"
       Time.zone = self.time_zone
       # Save the new token and its expiry over the old one
       self.update_attribute(:oauth_token, new_token['access_token']);
