@@ -29,7 +29,8 @@ class User < ActiveRecord::Base
     if facebook_token_expired?
       # Get the new token
       logger.debug "Exchanging token"
-      new_token = facebook_oauth.exchange_access_token_info(self.oauth_token)
+      new_short_token = facebook_oauth.exchange_access_token_info(self.oauth_token)
+      new_token = facebook_oauth.
       logger.debug "Refreshed token info: #{new_token}"
       Time.zone = self.time_zone
       # Save the new token and its expiry over the old one
