@@ -5,31 +5,53 @@ class PostsController < ApplicationController
     @startDate = Time.current
     @graph = Koala::Facebook::API.new(@current_user.oauth_token)
     @page_names = []
-    @pages = @graph.get_connections('me', 'accounts').each do |p|
-      @page_names.push(p['name'])
+    @page_names.push(["Post to newsfeed", 0])
+    @pages = @graph.get_connections('me', 'accounts').each_with_index do |p, index|
+      @page_names.push([p['name'], index + 1])
     end
   end
 
   def create
     @post = Post.new(post_params)
     @user = current_user
+    @graph = Koala::Facebook::API.new(@current_user.oauth_token)
     Time.zone = current_user.time_zone
-    if @post.save
+    if(post_params[:page_token] == 0)
+      if @post.save
       @post.update_attribute(:user_id, current_user.id)
-      @post.update_attribute(:parse_time, DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S %p").change(offset: Time.now.strftime("%z")))
       logger.debug "Saved post with id #{@post.id}"
       logger.debug "#{@post.parse_time}"
       job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
         @graph = Koala::Facebook::API.new(@user.oauth_token)
         @graph.put_connections("me", "feed", message: @post.content)
-        logger.debug("Posted #{@post.content} at #{@post.buffer_time}")
+        logger.debug("Posted #{@post.content} at #{@post.buffer_time} buffer time > #{@post.parse_time}")
       end
       @post.update_attribute(:job_id, job.id)
-      flash[:success] = "You've scheduled your post for #{@post.buffer_time}!"
+      flash[:success] = "You've scheduled a post on your newsfeed for #{@post.buffer_time}!"
       redirect_to profile_path
+      else
+        flash[:error] = "Unfortunately, there was an error scheduling your post."
+        redirect_to profile_path
+      end
     else
-      flash[:error] = "Unfortunately, there was an error scheduling your post."
+      @page_token = @graph.get_connections('me', 'accounts')[post_params[:page_token]]["access_token"]
+      logger.debug "Pages: #{@page_token}"
+      if @post.save
+      @post.update_attribute(:user_id, current_user.id)
+      logger.debug "Saved post with id #{@post.id}"
+      logger.debug "#{@post.parse_time}"
+      job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
+        @graph = Koala::Facebook::API.new(@page_token)
+        @graph.put_wall_post(@post.content)
+        logger.debug("Posted #{@post.content} at #{@post.buffer_time} buffer time > #{@post.parse_time}")
+      end
+      @post.update_attribute(:job_id, job.id)
+      flash[:success] = "You've scheduled your post for your page at #{@post.buffer_time}!"
       redirect_to profile_path
+      else
+        flash[:error] = "Unfortunately, there was an error scheduling your post."
+        redirect_to profile_path
+      end
     end
   end
 
@@ -50,7 +72,6 @@ class PostsController < ApplicationController
       return
     end
     if @post.update(post_params)
-      @post.update_attribute(:parse_time, DateTime.strptime(@post.buffer_time, "%m/%d/%Y %H:%M:%S %p"))
       logger.debug "Updated post with id #{@post.id}"
       logger.debug "#{@post.parse_time}"
       Rufus::Scheduler.singleton.job(@post.read_attribute(:job_id)).unschedule
@@ -79,6 +100,6 @@ class PostsController < ApplicationController
 
   private
     def post_params
-      params.require(:post).permit(:content, :buffer_time, :photo)
+      params.require(:post).permit(:content, :buffer_time, :parse_time, :photo, :page_token)
     end
 end

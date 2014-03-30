@@ -13,6 +13,7 @@
       %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text", value: @post.buffer_time}
       %span.input-group-addon
         %i{"data-time-icon" => "fa fa-clock-o", "data-date-icon" => "fa fa-calendar"}
+    =f.hidden_field :parse_time
     %br
     =f.submit
 
@@ -22,5 +23,9 @@
       language: 'en',
       pick12HourFormat: true,
       startDate: new Date(#{@startDate.year}, #{@startDate.month - 1}, #{@startDate.day})
+    });
+
+    $('#datetimepicker').on('changeDate', function(e){
+      document.getElementById('post_parse_time').value = e.localDate.toString();
     });
   });
