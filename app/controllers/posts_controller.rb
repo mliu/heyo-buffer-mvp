@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     @user = current_user
     @graph = Koala::Facebook::API.new(@current_user.oauth_token)
     Time.zone = current_user.time_zone
-    if(post_params[:page_token] == 0)
+    if(post_params[:page_token].to_i == 0)
       if @post.save
       @post.update_attribute(:user_id, current_user.id)
       logger.debug "Saved post with id #{@post.id}"
@@ -34,7 +34,7 @@ class PostsController < ApplicationController
         redirect_to profile_path
       end
     else
-      @page_token = @graph.get_connections('me', 'accounts')[post_params[:page_token]]["access_token"]
+      @page_token = @graph.get_connections('me', 'accounts')[post_params[:page_token].to_i - 1]["access_token"]
       logger.debug "Pages: #{@page_token}"
       if @post.save
       @post.update_attribute(:user_id, current_user.id)
