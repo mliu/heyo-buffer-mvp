@@ -33,7 +33,7 @@
       startDate: new Date(#{@startDate.year}, #{@startDate.month - 1}, #{@startDate.day})
     });
 
-    $('#datetimepicker').on('changeDate', function(e){
+    $('#post_buffer_time').on('input', function(e){
       document.getElementById('post_parse_time').value = e.localDate.toString();
     });
   });
