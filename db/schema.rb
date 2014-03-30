@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140328052053) do
+ActiveRecord::Schema.define(version: 20140330163320) do
 
   create_table "posts", force: true do |t|
     t.datetime "created_at"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20140328052053) do
     t.datetime "photo_updated_at"
     t.integer  "user_id"
     t.string   "page_token"
+    t.string   "page_name"
   end
 
   create_table "users", force: true do |t|

@@ -12,12 +12,14 @@
           / ="Time: " + post.buffer_time
           =post.parse_time
           =@startDate
+          =post.page_name
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
           -else
             %span.edit_link
               =link_to "Edit", edit_post_path(post)
+              =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }
 -if @posts_today.any?
   .panel.panel-default
     .panel-heading
@@ -30,12 +32,14 @@
           / ="Time: " + post.buffer_time
           =post.parse_time
           =@startDate
+          =post.page_name
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
           -else
             %span.edit_link
               =link_to "Edit", edit_post_path(post)
+              =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }
 -if @posts_tomorrow.any?
   .panel.panel-default
     .panel-heading
@@ -46,12 +50,14 @@
         %li.list-group-item
           =post.content
           ="Time: " + post.buffer_time
+          =post.page_name
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
           -else
             %span.edit_link
               =link_to "Edit", edit_post_path(post)
+              =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }
 -if @posts_future.any?
   .panel.panel-default
     .panel-heading
@@ -62,9 +68,11 @@
         %li.list-group-item
           =post.content
           ="Time: " + post.buffer_time
+          =post.page_name
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
           -else
             %span.edit_link
               =link_to "Edit", edit_post_path(post)
+              =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }

@@ -1,13 +1,21 @@
 =form_for @post do |f|
   %div{style: "width: 500px;"}
     =f.label :content
-    =f.text_field :content, class: "form-control", value: @post.content
-
+    =f.text_field :content, class: "form-control"
+    %br
+    =f.label :page_token, "Post to"
+    %br
+    ="Currently posting to " + @post.page_name
+    %br
+    =f.select :page_token, @page_names
+    %br
+    %br
     =f.label :photo
     =f.file_field :photo
-    -if @post.photo.exists?
-      =image_tag(@post.photo.url)
-
+    / Ajax preview
+    / #image_view
+    /   =image_tag @post.photo.url
+    %br
     =f.label :buffer_time
     #datetimepicker.input-group
       %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text", value: @post.buffer_time}
