@@ -1,8 +1,9 @@
 GIT
-  remote: https://github.com/mliu95/bootstrap-datetimepicker-rails.git
-  revision: dafb0c5e94e5866ab19a41054dbb418dbeddfb2c
+  remote: https://github.com/mliu95/momentjs-rails.git
+  revision: c8d1e541793541293e70733e704653fe5e825986
   specs:
-    bootstrap-datetimepicker-rails (0.0.11)
+    momentjs-rails (2.5.1)
+      railties (>= 3.1)
 
 GEM
   remote: https://rubygems.org/
@@ -36,6 +37,8 @@ GEM
     atomic (1.1.16)
     bootstrap-sass (3.1.1.0)
       sass (~> 3.2)
+    bootstrap3-datetimepicker-rails (3.0.0)
+      momentjs-rails (~> 2.5.0)
     builder (3.1.4)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -164,14 +167,15 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  bootstrap-datetimepicker-rails!
   bootstrap-sass (~> 3.1.1)
+  bootstrap3-datetimepicker-rails (~> 3.0.0)
   coffee-rails (~> 4.0.0)
   font-awesome-sass
   haml
   jbuilder (~> 1.2)
   jquery-rails
   koala (~> 1.8.0rc1)
+  momentjs-rails!
   omniauth
   omniauth-facebook (= 1.4.0)
   paperclip (~> 4.1)
