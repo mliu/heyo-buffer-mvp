@@ -9,13 +9,13 @@
     =f.label :content
     =f.text_field :content, class: "form-control"
     %br
-    =f.label :page_token
+    =f.label :page_token, "Post to"
     %br
     =f.select :page_token, @page_names
     %br
     %br
-    =f.label :photo
-    =f.file_field :photo
+    =f.label :photo, "Photo URL"
+    =f.text_field :photo, class: "form-control"
     / Ajax preview
     / #image_view
     /   =image_tag @post.photo.url

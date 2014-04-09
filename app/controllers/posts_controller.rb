@@ -24,7 +24,11 @@ class PostsController < ApplicationController
         logger.debug "#{@post.parse_time}"
         job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
           @graph = Koala::Facebook::API.new(@user.oauth_token)
-          @graph.put_connections("me", "feed", message: @post.content)
+          if(post_params[:photo] != "")
+            @graph.put_picture(@post.photo, {message: @post.content}, "me")
+          else
+            @graph.put_connections("me", "feed", message: @post.content)
+          end
           logger.debug("Posted #{@post.content} at #{@post.buffer_time} buffer time > #{@post.parse_time}")
         end
         @post.update_attribute(:job_id, job.id)
@@ -46,7 +50,11 @@ class PostsController < ApplicationController
         logger.debug "#{@post.parse_time}"
         job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
           @graph = Koala::Facebook::API.new(@page_token)
-          @graph.put_wall_post(@post.content)
+          if(post_params[:photo] != "")
+            @graph.put_picture(@post.photo, {message: @post.content}, "me")
+          else
+            @graph.put_wall_post(@post.content)
+          end
           logger.debug("Posted #{@post.content} at #{@post.buffer_time} buffer time > #{@post.parse_time}")
         end
         @post.update_attribute(:job_id, job.id)

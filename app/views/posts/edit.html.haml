@@ -5,19 +5,18 @@
     %br
     =f.label :page_token, "Post to"
     %br
+    =f.select :page_token, @page_names
     ="Currently posting to " + @post.page_name
     %br
-    =f.select :page_token, @page_names
     %br
-    %br
-    =f.label :photo
-    =f.file_field :photo
+    =f.label :photo, "Photo URL"
+    =f.text_field :photo, class: "form-control"
     / Ajax preview
     / #image_view
     /   =image_tag @post.photo.url
     %br
     =f.label :buffer_time
-    %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text"}
+    %input.form-control{id: "post_buffer_time", name: "post[buffer_time]", "data-format" => "MM/dd/yyyy HH:mm:ss PP", :type => "text", value: @post.buffer_time}
     =f.hidden_field :parse_time
     %br
     =f.submit
