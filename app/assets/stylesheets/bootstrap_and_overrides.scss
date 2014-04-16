@@ -6,7 +6,73 @@
 }
 
 .wrap {
-  width:800px;
+  width:820px;
   margin-left:auto;
   margin-right:auto;
+}
+
+.association{
+  margin-top:20px;
+}
+
+.week{
+  width:100%;
+  height:70px;
+}
+
+.day{
+  margin:0px;
+  border-radius:5px;
+  border:1px solid #D0D0D0;
+  background-color:#ececec;
+  float:left;
+  overflow:auto;
+}
+
+.day:hover{
+  opacity:0.5;  
+}
+
+.day label{
+  float:left;
+  width:115px;
+  height:59px;
+}
+
+.day input{
+  position:absolute;
+  top:-30px;
+}
+
+.day label span{
+  text-align:center;
+  font-weight:normal;
+  padding:22px;
+  display:block;
+}
+
+.day input:checked + span{
+  background-color:#ff6600;
+  color:#fff;
+}
+
+#days{
+  font-weight:bold;
+}
+
+#post{
+  font-weight:bold;
+}
+
+.remove-association{
+  color:#ff6600;
+  vertical-align:middle;
+  font-size:1.5em;
+  font-weight:bold;
+}
+
+.remove-association:hover{
+  color:#ff6600;
+  text-decoration:none;
+  opacity:0.5;
 }

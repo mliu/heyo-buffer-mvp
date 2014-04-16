@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409042234) do
+ActiveRecord::Schema.define(version: 20140415192420) do
 
   create_table "posts", force: true do |t|
     t.datetime "created_at"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(version: 20140409042234) do
     t.string   "photo"
   end
 
+  create_table "queue_times", force: true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "hour"
+    t.string   "minute"
+    t.string   "ampm"
+  end
+
   create_table "users", force: true do |t|
     t.string   "provider"
     t.string   "uid"
@@ -36,6 +45,13 @@ ActiveRecord::Schema.define(version: 20140409042234) do
     t.datetime "updated_at"
     t.boolean  "selected_a_time_zone", default: false
     t.string   "time_zone"
+    t.boolean  "mon",                  default: true
+    t.boolean  "tue",                  default: true
+    t.boolean  "wed",                  default: true
+    t.boolean  "thu",                  default: true
+    t.boolean  "fri",                  default: true
+    t.boolean  "sat",                  default: true
+    t.boolean  "sun",                  default: true
   end
 
 end

@@ -1,0 +1,7 @@
+.nested-fields
+  / =f.datetime_select("time", prompt: true, order: [:hour, :minute], ampm: true)
+  =f.select(:hour, QueueTime.hours)
+  =f.select(:minute, QueueTime.minutes)
+  =f.select(:ampm, ["AM", "PM"])
+  =link_to_remove_association "X", f, class: "remove-association"
+  %br

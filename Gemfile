@@ -15,15 +15,18 @@ end
 
 gem 'haml'
 
+gem "cancan"
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
 gem 'bootstrap-sass', '~> 3.1.1'
 
+gem 'cocoon'
+
 # gem 'bootstrap-datetimepicker-rails', :git => "https://github.com/mliu95/bootstrap-datetimepicker-rails.git"
 gem 'momentjs-rails', git: "https://github.com/mliu95/momentjs-rails.git"
 gem 'bootstrap3-datetimepicker-rails', '~> 3.0.0'
-
 
 gem 'font-awesome-sass'
 

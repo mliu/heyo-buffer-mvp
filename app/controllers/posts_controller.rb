@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  load_and_authorize_resource
   def new
     @post = Post.new
     Time.zone = current_user.time_zone
@@ -140,6 +141,12 @@ class PostsController < ApplicationController
     @posts_today = Post.posting_today.where(user_id: current_user.id).order(:parse_time)
     @posts_tomorrow = Post.posting_tomorrow.where(user_id: current_user.id).order(:parse_time)
     @posts_future = Post.posting_future.where(user_id: current_user.id).order(:parse_time)
+  end
+
+  def past
+    Time.zone = current_user.time_zone
+    @startDate = Time.current
+    @posts_past = Post.posting_past.where(user_id: current_user.id).order(:parse_time)
   end
 
   def destroy

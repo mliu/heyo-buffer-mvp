@@ -1,0 +1,55 @@
+=form_for @user, url: settings_path, html: {method: :post} do |f|
+  =f.label :time_zone, "Time zone:"
+  %br
+  ="Your current time zone: " + current_user.time_zone
+  %br
+  =f.time_zone_select(:time_zone, ActiveSupport::TimeZone.all)
+  %br
+  %br
+  #days
+    Post on these days:
+  .week
+    .day
+      %label
+        =f.check_box :sun
+        %span
+          Sunday
+    .day
+      %label
+        =f.check_box :mon
+        %span
+          Monday
+    .day
+      %label
+        =f.check_box :tue
+        %span
+          Tuesday
+    .day
+      %label
+        =f.check_box :wed
+        %span
+          Wednesday
+    .day
+      %label
+        =f.check_box :thu
+        %span
+          Thursday
+    .day
+      %label
+        =f.check_box :fri
+        %span
+          Friday
+    .day
+      %label
+        =f.check_box :sat
+        %span
+          Saturday
+  .association
+    #post
+      On these times:
+    =f.fields_for :queue_times do |qt|
+      =render 'queue_time_fields', f: qt
+    %div
+      =link_to_add_association 'Add Queue Time', f, :queue_times
+  %br
+  =f.submit

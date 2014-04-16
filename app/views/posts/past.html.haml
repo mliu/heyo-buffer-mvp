@@ -1,0 +1,30 @@
+%h2
+  Past posts
+%table.table.table-hover
+  %thead
+    %tr
+      %th
+        Content
+      %th
+        Time
+      %th
+        Location
+      %th
+        Edit
+  %tbody
+  -@posts_past.reverse_each do |post|
+    %tr
+      %td
+        =post.content
+      %td
+        =post.buffer_time
+      %td
+        =post.page_name.capitalize
+      %td
+        -if post.parse_time < @startDate
+          %span.edit_link
+            Posted
+        -else
+          %span.edit_link
+            =link_to "Edit", edit_post_path(post)
+            =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }

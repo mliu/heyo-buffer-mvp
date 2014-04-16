@@ -1,38 +1,31 @@
 %h2
   Your queued posts
 -if @posts_past.any?
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title
-        Past
-    %ul.list-group
-      -@posts_past.each do |post|
-        %li.list-group-item
-          =post.content
-          / ="Time: " + post.buffer_time
-          =post.parse_time
-          =@startDate
-          =post.page_name
-          -if post.parse_time < @startDate
-            %span.edit_link
-              Posted
-          -else
-            %span.edit_link
-              =link_to "Edit", edit_post_path(post)
-              =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }
+  =link_to "View past posts", past_path
 -if @posts_today.any?
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title
-        Today
-    %ul.list-group
-      -@posts_today.each do |post|
-        %li.list-group-item
+  %h3
+    Today
+  %table.table.table-hover
+    %thead
+      %tr
+        %th
+          Content
+        %th
+          Time
+        %th
+          Location
+        %th
+          Edit
+    %tbody
+    -@posts_today.each do |post|
+      %tr
+        %td
           =post.content
-          / ="Time: " + post.buffer_time
-          =post.parse_time
-          =@startDate
-          =post.page_name
+        %td
+          =post.buffer_time
+        %td
+          =post.page_name.capitalize
+        %td
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
@@ -41,16 +34,29 @@
               =link_to "Edit", edit_post_path(post)
               =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }
 -if @posts_tomorrow.any?
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title
-        Tomorrow
-    %ul.list-group
-      -@posts_tomorrow.each do |post|
-        %li.list-group-item
+  %h3
+    Tomorrow
+  %table.table.table-hover
+    %thead
+      %tr
+        %th
+          Content
+        %th
+          Time
+        %th
+          Location
+        %th
+          Edit
+    %tbody
+    -@posts_tomorrow.each do |post|
+      %tr
+        %td
           =post.content
-          ="Time: " + post.buffer_time
-          =post.page_name
+        %td
+          =post.buffer_time
+        %td
+          =post.page_name.capitalize
+        %td
           -if post.parse_time < @startDate
             %span.edit_link
               Posted
@@ -59,16 +65,29 @@
               =link_to "Edit", edit_post_path(post)
               =link_to "Delete", post, method: :delete, data: { confirm: "Delete post for #{post.page_name}?" }
 -if @posts_future.any?
-  .panel.panel-default
-    .panel-heading
-      %h3.panel-title
-        Future
-    %ul.list-group
-      -@posts_future.each do |post|
-        %li.list-group-item
+  %h3
+    Future
+  %table.table.table-hover
+    %thead
+      %tr
+        %th
+          Content
+        %th
+          Time
+        %th
+          Location
+        %th
+          Change
+    %tbody
+    -@posts_future.each do |post|
+      %tr
+        %td
           =post.content
-          ="Time: " + post.buffer_time
-          =post.page_name
+        %td
+          =post.buffer_time
+        %td
+          =post.page_name.capitalize
+        %td
           -if post.parse_time < @startDate
             %span.edit_link
               Posted

@@ -6,7 +6,11 @@ Bufferheyo::Application.routes.draw do
   match "auth/:provider/callback", to: "sessions#create", via: [:get, :post]
   match "auth/failure", to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
+  get 'past', to: 'posts#past', as: 'past'
+  get 'settings', to: 'users#edit', as: 'settings'
+  post 'settings', to: 'users#update'
   resources :posts
+  resources :queue_time
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

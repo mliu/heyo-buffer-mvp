@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :posts, class_name: "Post", foreign_key: "user_id"
+  has_many :queue_times, class_name: "QueueTime", foreign_key: "user_id"
+  accepts_nested_attributes_for :queue_times, reject_if: :all_blank, allow_destroy: true
 
   def self.from_omniauth(auth)
     newUser = where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
