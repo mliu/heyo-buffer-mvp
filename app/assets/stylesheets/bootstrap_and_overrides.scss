@@ -1,6 +1,14 @@
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
 
+.navbar-active{
+  background-color:#D0D0D0;
+}
+
+.navbar ul li{
+  /*float:right;*/
+}
+
 .list-group-item > .edit_link {
   float: right;
 }

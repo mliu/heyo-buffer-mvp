@@ -1,10 +1,24 @@
 -if current_user
-  %p
-    =current_user.name
-    =link_to "Home", profile_path
-    =link_to "Scheduled Posts", posts_path
-    =link_to "Settings", settings_path
-    =link_to "Sign Out", signout_path, id: "sign_out"
+  %nav.navbar.navbar-default
+    .container-fluid
+      %a.navbar-brand{href: root_path}
+        Buffer MVP
+      %ul.nav.navbar-nav.navbar-right
+        %li.navbar-text
+          ="Welcome, " + current_user.name
+        %li{class: "#{'navbar-active' if current_page?(profile_path)}"}
+          =link_to "Home", profile_path
+        %li{class: "#{'navbar-active' if current_page?(posts_path)}"}
+          =link_to "Scheduled Posts", posts_path
+        %li{class: "#{'navbar-active' if current_page?(settings_path)}"}
+          =link_to "Settings", settings_path
+        %li
+          =link_to "Sign Out", signout_path, id: "sign_out"
 -else
-  %p
-    =link_to "Sign In With Facebook", "/auth/facebook", id: "sign_in"
+  %nav.navbar.navbar-default
+    .container-fluid
+      %a.navbar-brand{href: root_path}
+        Buffer MVP
+      %ul.nav.navbar-nav
+        %li
+          =link_to "Sign In With Facebook", "/auth/facebook", id: "sign_in"
