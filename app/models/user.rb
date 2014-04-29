@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
       user.oauth_expires_at = Time.at(auth.credentials.expires_at) unless auth.credentials.expires_at.nil?
       user.save!
     end
-
     new_access_info = newUser.facebook_oauth.exchange_access_token_info newUser.oauth_token
     logger.debug "New access info: #{new_access_info}"
     new_access_token = new_access_info["access_token"]
@@ -20,6 +19,27 @@ class User < ActiveRecord::Base
     newUser.update_attribute(:oauth_token, new_access_token)
     newUser.update_attribute(:oauth_expires_at, new_access_expires_at)
     return newUser
+  end
+
+  def update_queue_times
+    arr = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].select {|day| user.send day}
+    Post.where(queue: true).where(posted: false).order(:queue_order).each_with_index do |post, index|
+      post.update_attribute(:parse_time, self.find_queue_time(arr, index))
+    end
+  end
+
+  def find_queue_time(arr, count)
+    Time.zone = self.time_zone
+    # Get array of queue times for user
+    qt = self.queue_times.to_ary
+    # Get specific queue time of post
+    time = qt[qt.length % count]
+    # Get day of post
+    day = Time.zone.now + (((count / qt.length).floor) * 86400)
+    dayStr = arr[arr.index(day.strftime("%a").downcase)]
+    dayNum = day.day
+    dayMon = 
+    time = Time.parse
   end
 
   # def self.deauth(auth)

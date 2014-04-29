@@ -13,10 +13,11 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       logger.debug "User update fine"
       logger.debug "#{@params}"
-      if @params.present?
-        @params.values.each do |qt|
-          logger.debug "Values found for QT #{qt[:time]}"
-        end
+      if @user.queue_times.count == 0
+        logger.debug "Creating automatic queuetime"
+        queuetime = QueueTime.new(user_id: user.id, hour: "12", minute: "00", ampm: "PM")
+        flash[:error] = "You must have at least one queue time"
+        queuetime.save!
       end
       flash[:success] = "You've updated your profile!"
       redirect_to settings_path

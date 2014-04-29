@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415192420) do
+ActiveRecord::Schema.define(version: 20140423230030) do
 
   create_table "posts", force: true do |t|
     t.datetime "created_at"
@@ -24,6 +24,9 @@ ActiveRecord::Schema.define(version: 20140415192420) do
     t.string   "page_token"
     t.string   "page_name"
     t.string   "photo"
+    t.boolean  "queue"
+    t.boolean  "posted",      default: false
+    t.integer  "queue_order"
   end
 
   create_table "queue_times", force: true do |t|

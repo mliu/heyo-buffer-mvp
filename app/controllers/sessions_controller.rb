@@ -13,6 +13,11 @@ class SessionsController < ApplicationController
       user.update_attribute(:time_zone, cookies["jstz_time_zone"])
       user.update_attribute(:selected_a_time_zone, true)
     end
+    if user.queue_times.count == 0
+      logger.debug "Creating automatic queuetime"
+      queuetime = QueueTime.new(user_id: user.id, hour: "12", minute: "00", ampm: "PM")
+      queuetime.save!
+    end
     logger.debug env["omniauth.auth"]
     session[:user_id] = user.id
     flash[:success] = "You have logged in!"
