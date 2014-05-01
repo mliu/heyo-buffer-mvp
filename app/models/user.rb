@@ -22,24 +22,29 @@ class User < ActiveRecord::Base
   end
 
   def update_queue_times
-    arr = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"].select {|day| user.send day}
+    week = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+    arr = week.select {|day| user.send day}
     Post.where(queue: true).where(posted: false).order(:queue_order).each_with_index do |post, index|
-      post.update_attribute(:parse_time, self.find_queue_time(arr, index))
+      post.update_attribute(:parse_time, self.find_queue_time(week, arr, index))
     end
   end
 
-  def find_queue_time(arr, count)
+  def find_queue_time(week, arr, count)
     Time.zone = self.time_zone
     # Get array of queue times for user
     qt = self.queue_times.to_ary
     # Get specific queue time of post
-    time = qt[qt.length % count]
+    qt_time = qt[qt.length % count]
     # Get day of post
-    day = Time.zone.now + (((count / qt.length).floor) * 86400)
-    dayStr = arr[arr.index(day.strftime("%a").downcase)]
-    dayNum = day.day
-    dayMon = 
-    time = Time.parse
+    adjustedDay = Time.zone.now + (((count / qt.length).floor) * 86400)
+    adjustedDate = Date.commercial(Date.today.in_time_zone.year, Date.today.in_time_zone.cweek, week.index(adjustedDay.strftime("%a").downcase) + 1)
+    time = adjustedDate.to_time
+    # Get hour
+    if qt_time.ampm == "pm"
+      hour = (qt_time.hour.to_i + 12) % 24
+    end
+    time.change(hour: hour, min: qt_time.minute)
+    return time
   end
 
   # def self.deauth(auth)

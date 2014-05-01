@@ -17,7 +17,7 @@ class PostsController < ApplicationController
     @user = current_user
     @graph = Koala::Facebook::API.new(@user.oauth_token)
     Time.zone = @user.time_zone
-    if params[:commit] == "Queue Post"
+    if post_params[:queue]
       if @post.save
         queued_posts = @user.posts.where(queue: true).where(posted: false)
         if queued_posts.any?
@@ -28,6 +28,43 @@ class PostsController < ApplicationController
         @post.update_attribute(:queue, true)
         @post.update_attribute(:user_id, @user.id)
         @user.update_queue_times
+        if(post_params[:page_token].to_i == 0)
+          @post.update_attribute(:page_name, "your newsfeed")
+          job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
+            @graph = Koala::Facebook::API.new(@user.oauth_token)
+            if(post_params[:photo] != "")
+              @graph.put_picture(@post.photo, {message: @post.content}, "me")
+            else
+              @graph.put_connections("me", "feed", message: @post.content)
+            end
+          end
+          @post.update_attribute(:job_id, job.id)
+          flash[:success] = "You've queued a post on your newsfeed!"
+          redirect_to profile_path
+        else
+          @page = @graph.get_connections('me', 'accounts')[post_params[:page_token].to_i - 1]
+          @page_token = @page["access_token"]
+          @page_name = @page["name"]
+          @post.update_attribute(:user_id, @user.id)
+          @post.update_attribute(:page_name, @page_name)
+          logger.debug "Saved post with id #{@post.id}"
+          logger.debug "#{@post.parse_time}"
+          job = Rufus::Scheduler.singleton.schedule_at @post.read_attribute(:parse_time).to_s do
+            @graph = Koala::Facebook::API.new(@page_token)
+            if(post_params[:photo] != "")
+              @graph.put_picture(@post.photo, {message: @post.content}, "me")
+            else
+              @graph.put_wall_post(@post.content)
+            end
+            logger.debug("Posted #{@post.content} at #{@post.buffer_time} buffer time > #{@post.parse_time}")
+          end
+          @post.update_attribute(:job_id, job.id)
+          flash[:success] = "You've scheduled your post for #{@post.page_name} at #{@post.buffer_time}!"
+          redirect_to profile_path
+        end
+      else
+        flash[:error] = "Unfortunately, there was an error scheduling your post."
+        redirect_to profile_path
       end
     else
       if(post_params[:page_token].to_i == 0)
@@ -172,6 +209,6 @@ class PostsController < ApplicationController
 
   private
     def post_params
-      params.require(:post).permit(:content, :buffer_time, :parse_time, :photo, :page_token)
+      params.require(:post).permit(:queue, :content, :buffer_time, :parse_time, :photo, :page_token)
     end
 end

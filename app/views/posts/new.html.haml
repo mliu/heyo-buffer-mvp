@@ -25,9 +25,10 @@
       / %span.input-group-addon
       /   %i{"data-time-icon" => "fa fa-clock-o", "data-date-icon" => "fa fa-calendar"}
     =f.hidden_field :parse_time
+    =f.hidden_field :queue
     %br
-    =f.submit "Create Post"
-    =f.submit "Queue Post"
+    =f.submit "Create Post", onclick: "javascript:$('#post_queue').value=false;"
+    =f.submit "Queue Post", onclick: "javascript:$('#post_queue').value=true;"
 
 :javascript
   $(function() {

@@ -28,7 +28,7 @@
   height:70px;
 }
 
-.day{
+.day_setting{
   margin:0px;
   border-radius:5px;
   border:1px solid #D0D0D0;
@@ -37,22 +37,22 @@
   overflow:auto;
 }
 
-.day:hover{
+.day_setting:hover{
   opacity:0.5;  
 }
 
-.day label{
+.day_setting label{
   float:left;
   width:115px;
   height:59px;
 }
 
-.day input{
+.day_setting input{
   position:absolute;
   top:-30px;
 }
 
-.day label span{
+.day_setting label span{
   text-align:center;
   font-weight:normal;
   padding:22px;
@@ -65,7 +65,7 @@
   user-select: none;
 }
 
-.day input:checked + span{
+.day_setting input:checked + span{
   background-color:#ff6600;
   color:#fff;
 }
