@@ -22,7 +22,10 @@
         %td
           =post.content
         %td
-          =post.buffer_time
+          -if post.queue
+            =post.parse_time
+          -else
+            =post.buffer_time
         %td
           =post.page_name.capitalize
         %td
@@ -53,7 +56,10 @@
         %td
           =post.content
         %td
-          =post.buffer_time
+          -if post.queue
+            =post.parse_time
+          -else
+            =post.buffer_time
         %td
           =post.page_name.capitalize
         %td
@@ -84,7 +90,10 @@
         %td
           =post.content
         %td
-          =post.buffer_time
+          -if post.queue
+            =post.parse_time
+          -else
+            =post.buffer_time
         %td
           =post.page_name.capitalize
         %td

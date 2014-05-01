@@ -27,8 +27,8 @@
     =f.hidden_field :parse_time
     =f.hidden_field :queue
     %br
-    =f.submit "Create Post", onclick: "javascript:$('#post_queue').value=false;"
-    =f.submit "Queue Post", onclick: "javascript:$('#post_queue').value=true;"
+    =f.submit "Create Post", onclick: "javascript:$('#post_queue').val(false);"
+    =f.submit "Queue Post", onclick: "javascript:$('#post_queue').val(true);"
 
 :javascript
   $(function() {

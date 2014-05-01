@@ -21,9 +21,9 @@ class PostsController < ApplicationController
       if @post.save
         queued_posts = @user.posts.where(queue: true).where(posted: false)
         if queued_posts.any?
-          @post.update_attribute(:queue_order, 1)
-        else
           @post.update_attribute(:queue_order, queued_posts.last.queue_order + 1)
+        else
+          @post.update_attribute(:queue_order, 1)
         end
         @post.update_attribute(:queue, true)
         @post.update_attribute(:user_id, @user.id)
